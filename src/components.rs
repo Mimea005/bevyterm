@@ -1,7 +1,7 @@
 use std::io::stdout;
 
 use bevy::prelude::*;
-use crossterm::{event::{EnableMouseCapture, DisableMouseCapture}, QueueableCommand};
+use crossterm::{event::{EnableMouseCapture, DisableMouseCapture, KeyEvent}, QueueableCommand};
 use anyhow::Result;
 
 #[derive(Component, Debug)]
