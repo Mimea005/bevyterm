@@ -6,6 +6,10 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[dependencies.bevy]
+version = "0.10"
+features = []
+
 [dependencies]
-bevy = "0.10.0"
+anyhow = "1.0.69"
 crossterm = "0.26.1"

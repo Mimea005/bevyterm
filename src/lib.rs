@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-mod runner;
+pub mod components;
+pub mod error_handling;
+mod window;
+
 
 pub struct TerminalPlugin;
 
@@ -12,7 +15,8 @@ impl Plugin for TerminalPlugin {
 
     fn build(&self, app: &mut App) {
         app
-            .set_runner(runner::runner)
+            .add_plugin(window::WindowPlugin)
         ;
     }
 }
+
