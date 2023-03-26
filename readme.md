@@ -1,12 +1,12 @@
 # Todo
 - [x] Finish initialization of the 'CrosstermWindow' component
 - [x] Dismantling the window on exit.
-- [ ] Event handling
+- [x] Event handling
   - [x] Poll crossterm events
-  - [ ] Create additional event streams that split up crossterm events to:
-    - [ ] Input events
-    - [ ] Mouse events
-    - [ ] Window events (resize and focus)
+  - [x] Create additional event streams that split up crossterm events to:
+    - [x] Input events
+    - [x] Mouse events
+    - [x] Window events (resize and focus)
 - [ ] Display
    - How displaying something should look like.
    - Should text be its own primitive? (since the terminal is text based anyway)
