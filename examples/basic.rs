@@ -1,6 +1,8 @@
+use std::io::stdout;
+
 use bevy::{prelude::*, app::AppExit};
-use bevyterm::{TerminalPlugin, event::CrosstermEvent};
-use crossterm::event::{KeyCode, KeyModifiers};
+use bevyterm::{TerminalPlugin, components::CrosstermWindow, event::KeyEvent};
+use crossterm::{event::{KeyCode, KeyModifiers}, queue, cursor::MoveTo, style::Print};
 
 fn main() {
     App::new()
@@ -11,13 +13,13 @@ fn main() {
 }
 
 
-fn hello_world(mut exit: EventWriter<AppExit>, mut events: EventReader<CrosstermEvent>) {
+fn hello_world(mut exit: EventWriter<AppExit>, mut key_events: EventReader<KeyEvent>, win: Query<&CrosstermWindow>) {
+    let win = win.single();
+    queue!(stdout(), MoveTo(win.width()/2, win.height()/2), Print("Hello World!")).unwrap();
     println!("hello world");
-    for event in events.iter() {
-        if let crossterm::event::Event::Key(ke) = event.0 {
-            if ke.code == KeyCode::Char('c') && ke.modifiers.contains(KeyModifiers::CONTROL) {
-                exit.send(AppExit)
-            }
+    for key in key_events.iter() {
+        if key.code == KeyCode::Char('c') && key.modifiers.contains(KeyModifiers::CONTROL) {
+            exit.send(AppExit)
         }
     }
 }
