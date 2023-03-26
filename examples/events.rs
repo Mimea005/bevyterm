@@ -81,8 +81,13 @@ fn log_event(
     // however does not result in any visible stutter
     // so stays until render part of library has been written
 
-    queue!(stdout(),Clear(ClearType::All))?;
-    queue!(stdout(), MoveTo(0, 0), Print(format!("Counter: {}", *counter)))?;
+    queue!(stdout(),
+           Clear(ClearType::All),
+           MoveTo(0, 0),
+           Print(format!("Counter: {}", *counter)),
+           MoveTo(window.width()/2, 0),
+           Print(format!("Cols: {:03}, Rows: {:03}", window.width(), window.height()))
+    )?;
 
     lines.key_lines.iter()
                    .enumerate()

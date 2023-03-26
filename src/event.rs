@@ -3,7 +3,7 @@ use std::time::Duration;
 use bevy::prelude::*;
 use anyhow::Result;
 
-use crate::error_handling::log_on_err;
+use crate::{error_handling::log_on_err, components::CrosstermWindow};
 
 /// All events collected from crossterm.
 /// (This includes: KeyPresses, MouseEvents and WindowEvents)
@@ -42,6 +42,7 @@ impl Plugin for EventPlugin {
             .init_resource::<Events<KeyEvent>>()
             .init_resource::<Events<MouseEvent>>()
             .add_system(poll_events.pipe(log_on_err).in_base_set(CoreSet::First))
+            .add_system(update_window.pipe(log_on_err).in_base_set(CoreSet::PreUpdate))
         ;
     }
 }
@@ -75,6 +76,19 @@ fn poll_events(
             #[cfg(feature = "bracketed-paste")]
             crossterm::event::Event::Paste(txt) => paste_events.send(PasteEvent(txt)),
             _ => unreachable!("All events should have been exhausted!")
+        }
+    }
+
+    Ok(())
+}
+
+fn update_window(mut window: Query<&mut CrosstermWindow>, mut events: EventReader<WindowEvent>) -> Result<()>{
+    let mut window = window.get_single_mut()?;
+
+    for event in events.iter() {
+        match event {
+            WindowEvent::Resize(col, row) => (window.width, window.height) = (*col, *row),
+            _ => {}
         }
     }
 
